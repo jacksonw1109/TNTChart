@@ -137,6 +137,15 @@
   transition: all 0.3s ease;
 }
 
+.userbar-background {
+  background-color: #191919;
+  padding-left: 2vw;
+  padding-right: 1vw;
+  display: flex;
+  justify-content: flex-end; /* 向右对齐 */
+  align-items: center;
+}
+
 .tokenlist-background {
   background-color: #191919;
   width: 100%;
