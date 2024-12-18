@@ -3,8 +3,8 @@ import Web3 from "web3";
 import { Button, Dialog, DialogTitle, DialogContent, Box, Typography, CircularProgress } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { connectWallet } from "../redux/actions/walletAction"; 
+import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 
-// 导入图标
 import MetaMaskIcon from "../assets/img/MetaMask.png";
 import PhantomIcon from "../assets/img/Phantom.png";
 
@@ -27,6 +27,17 @@ const WalletConnector = () => {
     detectWallets();
   }, []);
 
+
+  const getSolanaProvider = () => {
+    // Check if the window object exists (to ensure it's running in a browser)
+    if (typeof window !== "undefined" && window.solana?.isPhantom) {
+      return window.solana; // Return the Phantom provider if available
+    }
+
+    // Log a warning if Phantom Wallet is not available
+    console.warn("Phantom Wallet is not available in this environment.");
+    return null; // Return null if no provider is found
+  };
 
   const handleError = (error) => {
     console.error("Wallet connection error:", error);
@@ -67,11 +78,15 @@ const WalletConnector = () => {
           return;
       }
 
+
+      const provider = getSolanaProvider();
+
+      if (!provider) {
+        alert("Phantom Wallet is not installed. Please install it and try again.");
+        return;
+      }
       setLoading(true);
-
-      const response = await window.solana.connect({ onlyIfTrusted: false });
-      console.log("Connected Phantom account:", response.publicKey.toString());
-
+      const response = await provider.connect();
       // Update Redux state
       dispatch(connectWallet(response.publicKey.toString(), "Phantom"));
       setModalOpen(false); // Close Modal
