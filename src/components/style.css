@@ -137,6 +137,18 @@
   transition: all 0.3s ease;
 }
 
+.walletbutton-background {
+  background-color: #191919;
+  width: 100%;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  padding-top: 0.5vw;
+  padding-bottom: 0.5vw;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center; 
+}
+
 .tokenlist-background {
   background-color: #191919;
   width: 100%;
